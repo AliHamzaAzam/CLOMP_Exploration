@@ -1,0 +1,55 @@
+# Build directories
+/cmake-build-*/
+/build/
+/out/
+
+# Compiled object files
+*.o
+*.obj
+*.lo
+*.slo
+
+# Compiled dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# CLion specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# macOS specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Dependency directories
+/vcpkg/
+/deps/
+
+# Debug symbols
+*.dSYM/
+
+# Code coverage
+*.gcno
+*.gcda
+*.gcov
