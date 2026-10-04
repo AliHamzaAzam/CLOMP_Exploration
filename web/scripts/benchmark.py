@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Headless adaptation of the repository's 360-point Taylor circle kernel."""
-import hashlib, json, os, pathlib, platform, subprocess, sys, tempfile
+import argparse, hashlib, json, os, pathlib, platform, subprocess, tempfile
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--emit-harness', action='store_true', help='print C++ source without running or replacing measurements')
+args = parser.parse_args()
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 source = (ROOT / 'Scalar/CircleGeneratorScalar.cpp').read_text()
 kernel = source[source.index('double taylor_cos('):source.index('void compute_circle()')]
@@ -53,7 +56,7 @@ int main() {
 }
 '''
 # Emit source for compiler-backed tests without collecting or replacing evidence.
-if '--emit-harness' in sys.argv:
+if args.emit_harness:
     print(harness)
     raise SystemExit(0)
 

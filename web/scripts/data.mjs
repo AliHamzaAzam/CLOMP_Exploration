@@ -15,6 +15,7 @@ export function summarize(csv, metadata) {
  for(const line of lines){
   const fields=line.split(',');
   if(fields.some(field=>!field.trim())) throw Error('Missing numeric field');
+  if(fields.some(field=>!/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[-+]?\d+)?$/i.test(field.trim()))) throw Error('Invalid decimal field');
   const values=fields.map(Number);
   if(values.length!==5 || values.some(v=>!Number.isFinite(v))) throw Error('Invalid numeric row');
   const [terms,threads,sample,runtime,error]=values;
@@ -26,19 +27,26 @@ export function summarize(csv, metadata) {
   group.push({sample,runtime,error});
  }
  for(const terms of workloads) for(const threads of teams) if(!groups.has(`${terms}:${threads}`)) throw Error('Missing workload or thread configuration');
- const rows=[...groups].map(([key,samples])=>{
+ const rows=[...groups].sort(([a],[b])=>{const [at,ap]=a.split(':').map(Number),[bt,bp]=b.split(':').map(Number);return at-bt||ap-bp;}).map(([key,samples])=>{
   if(samples.length!==metadata.samples) throw Error('Incomplete sample group');
   const [terms,threads]=key.split(':').map(Number), times=samples.map(s=>s.runtime).sort((a,b)=>a-b);
   const mid=Math.floor(times.length/2), median=times.length%2?times[mid]:(times[mid-1]+times[mid])/2;
   return {terms,threads,median_ms:median,min_ms:times[0],max_ms:times.at(-1),samples:samples.length,max_error:Math.max(...samples.map(s=>s.error))};
  });
  if(!rows.length) throw Error('No measurements');
- for(const row of rows){const base=rows.find(r=>r.terms===row.terms&&r.threads===0);if(!base) throw Error('Missing scalar baseline');row.speedup=base.median_ms/row.median_ms;row.efficiency=row.threads?row.speedup/row.threads:null;}
+ for(const row of rows){const base=rows.find(r=>r.terms===row.terms&&r.threads===0);if(!base) throw Error('Missing scalar baseline');row.speedup=base.median_ms/row.median_ms;row.efficiency=row.threads?row.speedup/row.threads:null;if(!Number.isFinite(row.speedup)||row.speedup<=0||(row.efficiency!==null&&(!Number.isFinite(row.efficiency)||row.efficiency<=0)))throw Error('Invalid derived performance ratio');}
  return {metadata,rows};
 }
-if(process.argv[1]===fileURLToPath(import.meta.url)){
- const raw=new URL('../raw/',import.meta.url);
+// Validate raw evidence before writing. Build and dev preparation call this too,
+// so checked-in derived JSON can never silently override its raw measurements.
+export function regenerate(root=new URL('../',import.meta.url)) {
+ const raw=new URL('raw/',root);
  const data=summarize(fs.readFileSync(new URL('circle.csv',raw),'utf8'),JSON.parse(fs.readFileSync(new URL('machine.json',raw),'utf8')));
- fs.writeFileSync(new URL('../data/results.json',import.meta.url),JSON.stringify(data,null,2)+'\n');
+ fs.mkdirSync(new URL('data/',root),{recursive:true});
+ fs.writeFileSync(new URL('data/results.json',root),JSON.stringify(data,null,2)+'\n');
+ return data;
+}
+if(process.argv[1]===fileURLToPath(import.meta.url)){
+ const data=regenerate();
  console.log(`Generated ${data.rows.length} measured rows`);
 }

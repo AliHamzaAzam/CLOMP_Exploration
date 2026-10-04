@@ -56,6 +56,24 @@ try {
         heights.forEach((height, i) => assert.ok(Math.abs(height - 130 * values[i] / Math.max(...values)) < 1e-9));
       }
     }
+    const selector = page.getByLabel('Taylor terms per point');
+    await selector.focus();
+    await page.keyboard.press('Home');
+    assert.equal(await selector.inputValue(), '20');
+    await page.keyboard.press('ArrowDown');
+    assert.equal(await selector.inputValue(), '500');
+    await page.keyboard.press('End');
+    assert.equal(await selector.inputValue(), '1500');
+    const tableRegion = page.getByRole('region', { name: 'Performance measurements' });
+    assert.equal(await tableRegion.count(), 1, 'overflowing table needs a named keyboard-focusable region');
+    assert.equal(await tableRegion.getAttribute('tabindex'), '0');
+    await tableRegion.focus();
+    assert.equal(await tableRegion.evaluate(node => node === document.activeElement), true);
+    if (width < 700) {
+      assert.equal(await tableRegion.evaluate(node => node.scrollWidth > node.clientWidth), true);
+      await page.keyboard.press('ArrowRight');
+      await page.waitForFunction(() => document.querySelector('.table-wrap').scrollLeft > 0);
+    }
     for (const link of await page.locator('a[download]').all()) {
       const href = await link.getAttribute('href');
       const response = await page.request.get(new URL(href, page.url()).href);
@@ -63,13 +81,14 @@ try {
       const relative = href.replace(/^\.\//, '');
       assert.equal(await response.text(), await readFile(resolve(root, relative), 'utf8'), `download ${href} matches source evidence`);
     }
-    await page.getByRole('link', { name: 'Evidence', exact: true }).click();
+    await page.getByRole('link', { name: 'Evidence', exact: true }).focus();
+    await page.keyboard.press('Enter');
     assert.equal(new URL(page.url()).hash, '#evidence');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'page must not overflow viewport');
     assert.deepEqual(errors, []);
     await page.screenshot({ path: `/tmp/clomp-c11-final-${width}.png`, fullPage: true });
     await page.close();
-    console.log(`PASS ${width}px: all workloads, exact table and chart values, evidence downloads, anchor, nested path, no overflow or page errors`);
+    console.log(`PASS ${width}px: all workloads, exact table and chart values, evidence downloads, keyboard selector/table/navigation, nested path, no overflow or page errors`);
   }
 } finally {
   await browser?.close();
