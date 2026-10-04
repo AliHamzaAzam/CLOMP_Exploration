@@ -53,3 +53,6 @@ Makefile
 *.gcno
 *.gcda
 *.gcov
+/web/node_modules
+web/dist/
+web/public/
