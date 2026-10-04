@@ -1,0 +1,164 @@
+{
+  "metadata": {
+    "recorded_at": "2026-10-04T12:43:42.263014+00:00",
+    "machine": "AMD EPYC 7763 64-Core Processor",
+    "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+    "logical_cpus": 5,
+    "cpu_quota": "400000 100000",
+    "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+    "flags": "-O3 -std=c++17 -fopenmp",
+    "source_sha256": "d93873edfc1813319a8b7da4ad7bfa7db88925d2d3fd84b83c4808a785b33828",
+    "points": 360,
+    "repeats": 100,
+    "samples": 5,
+    "warmups": 1,
+    "affinity": "OMP_PROC_BIND=true OMP_PLACES=cores",
+    "allowed_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "actual_threads_verified": [
+      1,
+      2,
+      4
+    ],
+    "adaptation": "Taylor functions extracted unchanged from Scalar/CircleGeneratorScalar.cpp. OpenMP uses the existing parallel for simd schedule(auto). Headless harness, steady_clock timing, 100 repetitions per sample, explicit thread counts; not the original GUI executable."
+  },
+  "rows": [
+    {
+      "terms": 20,
+      "threads": 0,
+      "median_ms": 0.0212216,
+      "min_ms": 0.02118994,
+      "max_ms": 0.02157386,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1,
+      "efficiency": null
+    },
+    {
+      "terms": 20,
+      "threads": 1,
+      "median_ms": 0.02179838,
+      "min_ms": 0.02154811,
+      "max_ms": 0.02210404,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 0.9735402355587893,
+      "efficiency": 0.9735402355587893
+    },
+    {
+      "terms": 20,
+      "threads": 2,
+      "median_ms": 0.01221379,
+      "min_ms": 0.01217302,
+      "max_ms": 0.01279227,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1.737511452219172,
+      "efficiency": 0.868755726109586
+    },
+    {
+      "terms": 20,
+      "threads": 4,
+      "median_ms": 0.00732176,
+      "min_ms": 0.00723581,
+      "max_ms": 0.00765859,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 2.8984287930770742,
+      "efficiency": 0.7246071982692686
+    },
+    {
+      "terms": 500,
+      "threads": 0,
+      "median_ms": 0.55750915,
+      "min_ms": 0.5505117,
+      "max_ms": 0.57410562,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1,
+      "efficiency": null
+    },
+    {
+      "terms": 500,
+      "threads": 1,
+      "median_ms": 0.55449072,
+      "min_ms": 0.5522859,
+      "max_ms": 0.56024225,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1.0054436077848157,
+      "efficiency": 1.0054436077848157
+    },
+    {
+      "terms": 500,
+      "threads": 2,
+      "median_ms": 0.28197038,
+      "min_ms": 0.28050374,
+      "max_ms": 0.30263514,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1.9771904765316128,
+      "efficiency": 0.9885952382658064
+    },
+    {
+      "terms": 500,
+      "threads": 4,
+      "median_ms": 0.1450658,
+      "min_ms": 0.14177055,
+      "max_ms": 0.14669814,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 3.843146696188902,
+      "efficiency": 0.9607866740472255
+    },
+    {
+      "terms": 1500,
+      "threads": 0,
+      "median_ms": 1.61691167,
+      "min_ms": 1.61341254,
+      "max_ms": 1.6532597,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1,
+      "efficiency": null
+    },
+    {
+      "terms": 1500,
+      "threads": 1,
+      "median_ms": 1.61047426,
+      "min_ms": 1.60501457,
+      "max_ms": 1.66878087,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1.003997213839357,
+      "efficiency": 1.003997213839357
+    },
+    {
+      "terms": 1500,
+      "threads": 2,
+      "median_ms": 0.94664531,
+      "min_ms": 0.86622834,
+      "max_ms": 1.09405858,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 1.708043818439242,
+      "efficiency": 0.854021909219621
+    },
+    {
+      "terms": 1500,
+      "threads": 4,
+      "median_ms": 0.43679629,
+      "min_ms": 0.40469629,
+      "max_ms": 0.61877798,
+      "samples": 5,
+      "max_error": 0,
+      "speedup": 3.701752297392453,
+      "efficiency": 0.9254380743481132
+    }
+  ]
+}

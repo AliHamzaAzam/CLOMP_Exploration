@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-04T12:43:42.263014+00:00",
+  "machine": "AMD EPYC 7763 64-Core Processor",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.41",
+  "logical_cpus": 5,
+  "cpu_quota": "400000 100000",
+  "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+  "flags": "-O3 -std=c++17 -fopenmp",
+  "source_sha256": "d93873edfc1813319a8b7da4ad7bfa7db88925d2d3fd84b83c4808a785b33828",
+  "points": 360,
+  "repeats": 100,
+  "samples": 5,
+  "warmups": 1,
+  "affinity": "OMP_PROC_BIND=true OMP_PLACES=cores",
+  "allowed_cpus": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "actual_threads_verified": [
+    1,
+    2,
+    4
+  ],
+  "adaptation": "Taylor functions extracted unchanged from Scalar/CircleGeneratorScalar.cpp. OpenMP uses the existing parallel for simd schedule(auto). Headless harness, steady_clock timing, 100 repetitions per sample, explicit thread counts; not the original GUI executable."
+}

@@ -1,0 +1,22 @@
+{
+  "name": "clomp-results",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "data": "node scripts/data.mjs",
+    "benchmark": "python3 scripts/benchmark.py && npm run data",
+    "preview": "vite preview --host 0.0.0.0",
+    "test:browser": "node tests/browser.mjs",
+    "predev": "node scripts/assets.mjs",
+    "prebuild": "node scripts/assets.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "7.1.12"
+  }
+}
